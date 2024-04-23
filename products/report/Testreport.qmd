@@ -1,9 +1,11 @@
 ---
-title: "TestingTester"
+title: "Course Test Run"
 author: "Lukas Baumann"
 date: today
-format: html
-toc: true
+format:
+  html:
+    toc: true
+    embed-resources: true
 ---
 
 ```{r}
@@ -14,9 +16,10 @@ library(tidyverse)
 
 ## Creating functions for future financial projections
 
-With a lot of ChatGPT-help i tried to work out a function projecting financial details of a real estate financing (total-depth and percentage of depth to own assets). I am absolutely not the financial guy over here... just wanted to do something i otherwise never do. Nevertheless, one might argue this makes no sense when running to AI for help. But rather than going down this philosophical sinkhole i show some overly simple graphs about cash - Enjoy!)
+With a lot of ChatGPT-help i tried to work out a function projecting financial details of a real estate financing (total-depth and percentage of depth to own assets). I am absolutely not the financial guy over here and have little experience in function creation... just wanted to do something i never did. Nevertheless, one might argue this makes little sense when running to AI for help. But rather than going down this philosophical sinkhole i show some overly simple graphs about cash - Enjoy!
 
 # Import Function
+
 First i add the function from a separate script - **But i dont show it, because i want to keep it to myself ;-)!**
 
 ```{r}
@@ -53,6 +56,7 @@ project_financials <- function(own_capital, total_debt, interest_rate, amortizat
 ```
 
 Nah, just kidding. Here it is:
+
 ```{r}
 project_financials <- function(own_capital, total_debt, interest_rate, amortization_rate, years) {
   equity <- numeric(length = years)
@@ -85,7 +89,8 @@ project_financials <- function(own_capital, total_debt, interest_rate, amortizat
 ```
 
 # Inventing Data
-Now i present to you the fruits of work with a freshly invented data-table Financial-projection:
+
+Now i present to you the fruits of work with a freshly invented data-table woth a financial-projection of the next 20 years:
 
 ```{r}
 #| label: Financial-projection
@@ -107,8 +112,8 @@ print(financial_projection %>%
 ```
 
 # Baking
-Now to finish the magic i will bake some graphs! @Fremdkapital will show you the yearly total depth values for the quired real instate, after deduction of amortization payments
 
+Now to finish the magic i will bake some graphs! @Fremdkapital will show you the yearly total debth values for the imaginary real estate deal, after yearly deduction of amortization payments
 
 ```{r}
 #| label: Fremdkapital
@@ -121,6 +126,7 @@ ggplot(financial_projection %>%
 ```
 
 Now the plot @Femdverschuldung2 shows "Fremd-" and "Eigenkapital" not stacked but ovarlayed:
+
 ```{r}
 #| label: Fremdverschuldung2 
 #| fig-cap: "Projezierte jährliche Kapitalzusammensetzung über die nächsen X Jahre"
@@ -134,15 +140,47 @@ ggplot(data = financial_projection) +
 ```
 
 And last a the percentage of Fremdverschuldung per total investments in @Fremdverschluldung3
+
 ```{r}
 #| label: Fremdverschuldung3 
 #| fig-cap: "Projezierte jährliche Fremdverschuldung über die nächsen X Jahre"
 #| echo: false
 ggplot(data = financial_projection) +
   geom_line(aes(x = Year, y = Fremdverschuldung), color = "pink") +
-  scale_y_continuous(labels = scales::label_percent())+
+  scale_y_continuous(labels = scales::label_percent()) +
   theme_classic()
+```
+# Doing the actual assignment
+Lastly i added a short evaluation of the ebola dataset;
+```{r}
+#| echo: false
+#| output: false
+#| warning: false
+ebodat <- read_csv("https://raw.githubusercontent.com/ISPMBern/projects-in-R/main/data/raw/ebola.csv")
 
 ```
 
+I was interested in daily new ebola cases, which i firstly need to calculat from the dataset.
+```{r}
+#| output: false
+ebodat2 <-  ebodat %>% 
+  select(Country, Date, Cum_conf_cases) %>% 
+  filter(Country %in% c("Guinea", "Liberia", "Sierra Leone")) %>% 
+  filter(Date < "2015-03-31") %>% 
+  group_by(Country) %>% 
+  arrange(Country, Date) %>% 
+  mutate(Cum_conf_cases_diff = Cum_conf_cases - lag(Cum_conf_cases)) %>% 
+  ungroup()
+```
+
+Then i show daily new ebola-cases in @ebolacases below.
+```{r}
+#| echo: false
+#| warning: false
+#| label: ebolacases
+ggplot(ebodat2, mapping = aes(x = Date, y = Cum_conf_cases_diff)) +
+  geom_point(aes(group = Country, color = Country)) +
+  labs(x = "Date", y = "New Cases")+
+  theme_classic()
+```
 
