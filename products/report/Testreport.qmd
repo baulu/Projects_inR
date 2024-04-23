@@ -1,0 +1,38 @@
+---
+title: "TestingTester"
+author: "Mr.Myself"
+date: "'r date()'"
+format: html
+editor: visual
+---
+
+```{r}
+#| output: false
+#| echo: false
+library(tidyverse)
+```
+
+## What about ~~Whataboutism~~
+
+```{r}
+#| echo: false
+#| output: false
+ins2 <- read_csv("https://raw.githubusercontent.com/ISPMBern/projects-in-R/main/data/raw/insurance_with_date.csv")
+```
+
+```{r}
+#| echo: false
+ggplot(ins2, aes(x = age, y = bmi, color = smoker))+
+  geom_point() +
+  geom_quantile()+
+  theme(legend.position = "top")
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
