@@ -17,16 +17,71 @@ library(tidyverse)
 With a lot of ChatGPT-help i tried to work out a function projecting financial details of a real estate financing (total-depth and percentage of depth to own assets). I am absolutely not the financial guy over here... just wanted to do something i otherwise never do. Nevertheless, one might argue this makes no sense when running to AI for help. But rather than going down this philosophical sinkhole i show some overly simple graphs about cash - Enjoy!)
 
 # Import Function
-First i import the function from a separate script - **But i dont show it, because i want to keep it to myself - Death to open Science ;-)!**
+First i add the function from a separate script - **But i dont show it, because i want to keep it to myself ;-)!**
 
 ```{r}
 #| echo: false
-source("~/Desktop/Home/Arbeit und Studium/Medizin/Infektiologie/Projekte und Forschung/R Projects/Projects_inR/funtions/func_financial_projection.R")
+project_financials <- function(own_capital, total_debt, interest_rate, amortization_rate, years) {
+  equity <- numeric(length = years)
+  debt <- numeric(length = years)
+  mortgage_payments <- numeric(length = years)
+  amortization_payments <- numeric(length = years)
+  
+  equity[1] <- own_capital
+  debt[1] <- total_debt
+  amortization_payments[1] <- total_debt*amortization_rate
+  mortgage_payments[1] <- total_debt* interest_rate
+  
+  for (i in 2:years) {
+    mortgage_payments[i] <- debt[1] * interest_rate
+    equity[i] <- equity[1]
+    debt[i] <- debt[i - 1] - amortization_payments[i-1]
+    amortization_payments[i] <- debt[i] * amortization_rate
+  }
+  
+  result <- data.frame(
+    Year = 1:years,
+    Eigenkapital = equity,
+    Fremdkapital = debt,
+    Jaehrliche_Zinszahlung = mortgage_payments,
+    Jaehrliche_Amortisationszahlung = amortization_payments
+  )
+  
+  return(result)
+}
+
 ```
 
 Nah, just kidding. Here it is:
 ```{r}
-source("~/Desktop/Home/Arbeit und Studium/Medizin/Infektiologie/Projekte und Forschung/R Projects/Projects_inR/funtions/func_financial_projection.R")
+project_financials <- function(own_capital, total_debt, interest_rate, amortization_rate, years) {
+  equity <- numeric(length = years)
+  debt <- numeric(length = years)
+  mortgage_payments <- numeric(length = years)
+  amortization_payments <- numeric(length = years)
+  
+  equity[1] <- own_capital
+  debt[1] <- total_debt
+  amortization_payments[1] <- total_debt*amortization_rate
+  mortgage_payments[1] <- total_debt* interest_rate
+  
+  for (i in 2:years) {
+    mortgage_payments[i] <- debt[1] * interest_rate
+    equity[i] <- equity[1]
+    debt[i] <- debt[i - 1] - amortization_payments[i-1]
+    amortization_payments[i] <- debt[i] * amortization_rate
+  }
+  
+  result <- data.frame(
+    Year = 1:years,
+    Eigenkapital = equity,
+    Fremdkapital = debt,
+    Jaehrliche_Zinszahlung = mortgage_payments,
+    Jaehrliche_Amortisationszahlung = amortization_payments
+  )
+  
+  return(result)
+}
 ```
 
 # Inventing Data
@@ -36,13 +91,23 @@ Now i present to you the fruits of work with a freshly invented data-table Finan
 #| label: Financial-projection
 #| echo: false
 # Example usage:
-source("~/Desktop/Home/Arbeit und Studium/Medizin/Infektiologie/Projekte und Forschung/R Projects/Projects_inR/scripts/financial_exploration.R")
+own_capital <- 50000  # Eigenkapital
+total_debt <- 200000  # Fremdkapital
+interest_rate <- 0.01  # Annual interest rate
+amortization_rate <- 0.05  # Annual amortization rate
+years <- 20  # Number of years for projection
+
+financial_projection <- project_financials(own_capital, total_debt, interest_rate, amortization_rate, years) 
+financial_projection <- financial_projection %>% 
+  mutate(Fremdverschuldung = Fremdkapital / (Eigenkapital + Fremdkapital))
+
+print(financial_projection %>% 
+        rename(Jahr = Year, Amortisation = Jaehrliche_Amortisationszahlung, Zinsen = Jaehrliche_Zinszahlung, Eigenkapital = Eigenkapital, Fremdkapital = Fremdkapital))
 
 ```
-Tada!
 
 # Baking
-Now to finish the magic i will bake you a data-cake! @Fremdkapital will show you the yearly total depth values for the quired real instate, after deduction of amortization payments
+Now to finish the magic i will bake some graphs! @Fremdkapital will show you the yearly total depth values for the quired real instate, after deduction of amortization payments
 
 
 ```{r}
