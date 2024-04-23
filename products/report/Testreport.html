@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -86,72 +120,100 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="creating-functions-for-future-financial-projections" class="level2">
 <h2 class="anchored" data-anchor-id="creating-functions-for-future-financial-projections">Creating functions for future financial projections</h2>
-<p>With a lot of ChatGPT-help i tried to work out a function projecting total-depth and percentage of depth to own assets (Not the financial guy here… just wnated to do something i otherwise never do. Nevertheless, one might argue this makes no sense when running to AI for help. But rather than going down this philoyophical sinkhole i show some overly simple graphs about <sub>$$$$</sub>- <del>Enjoy!</del>)</p>
+<p>With a lot of ChatGPT-help i tried to work out a function projecting financial details of a real estate financing (total-depth and percentage of depth to own assets). I am absolutely not the financial guy over here… just wanted to do something i otherwise never do. Nevertheless, one might argue this makes no sense when running to AI for help. But rather than going down this philosophical sinkhole i show some overly simple graphs about cash - Enjoy!)</p>
 </section>
 <section id="import-function" class="level1">
 <h1>Import Function</h1>
-<p>First i import the function from a separate script - <strong>But i dont show it to you, because i want to keep it to myself - Death to open Science ;-)!</strong></p>
+<p>First i import the function from a separate script - <strong>But i dont show it, because i want to keep it to myself - Death to open Science ;-)!</strong></p>
+<p>Nah, just kidding. Here it is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"~/Desktop/Home/Arbeit und Studium/Medizin/Infektiologie/Projekte und Forschung/R Projects/Projects_inR/funtions/func_financial_projection.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="inventing-data" class="level1">
 <h1>Inventing Data</h1>
-<p>Now i present to you the fruits of work with a freshly invented data-table:</p>
+<p>Now i present to you the fruits of work with a freshly invented data-table <span class="citation" data-cites="Financial-projection">@Financial-projection</span>:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>   Year Eigenkapital Fremdkapital Jaehrliche_Zinszahlung
-1     1        50000    200000.00                  0.000
-2     2        50000    186000.00              10000.000
-3     3        50000    172980.00               9300.000
-4     4        50000    160871.40               8649.000
-5     5        50000    149610.40               8043.570
-6     6        50000    139137.67               7480.520
-7     7        50000    129398.04               6956.884
-8     8        50000    120340.17               6469.902
-9     9        50000    111916.36               6017.009
-10   10        50000    104082.22               5595.818
-11   11        50000     96796.46               5204.111
-12   12        50000     90020.71               4839.823
-13   13        50000     83719.26               4501.035
-14   14        50000     77858.91               4185.963
-15   15        50000     72408.79               3892.946
-16   16        50000     67340.17               3620.439
-17   17        50000     62626.36               3367.009
-18   18        50000     58242.52               3131.318
-19   19        50000     54165.54               2912.126
-20   20        50000     50373.95               2708.277
+1     1        50000    200000.00                   2000
+2     2        50000    190000.00                   2000
+3     3        50000    180500.00                   2000
+4     4        50000    171475.00                   2000
+5     5        50000    162901.25                   2000
+6     6        50000    154756.19                   2000
+7     7        50000    147018.38                   2000
+8     8        50000    139667.46                   2000
+9     9        50000    132684.09                   2000
+10   10        50000    126049.88                   2000
+11   11        50000    119747.39                   2000
+12   12        50000    113760.02                   2000
+13   13        50000    108072.02                   2000
+14   14        50000    102668.42                   2000
+15   15        50000     97535.00                   2000
+16   16        50000     92658.25                   2000
+17   17        50000     88025.33                   2000
+18   18        50000     83624.07                   2000
+19   19        50000     79442.86                   2000
+20   20        50000     75470.72                   2000
    Jaehrliche_Amortisationszahlung Fremdverschuldung
-1                         4000.000         0.8000000
-2                         4000.000         0.7881356
-3                         3720.000         0.7757646
-4                         3459.600         0.7628887
-5                         3217.428         0.7495121
-6                         2992.208         0.7356423
-7                         2782.753         0.7212901
-8                         2587.961         0.7064697
-9                         2406.803         0.6911986
-10                        2238.327         0.6754979
-11                        2081.644         0.6593923
-12                        1935.929         0.6429100
-13                        1800.414         0.6260823
-14                        1674.385         0.6089440
-15                        1557.178         0.5915326
-16                        1448.176         0.5738885
-17                        1346.803         0.5560542
-18                        1252.527         0.5380743
-19                        1164.850         0.5199948
-20                        1083.311         0.5018628</code></pre>
+1                        10000.000         0.8000000
+2                         9500.000         0.7916667
+3                         9025.000         0.7830803
+4                         8573.750         0.7742409
+5                         8145.062         0.7651493
+6                         7737.809         0.7558071
+7                         7350.919         0.7462166
+8                         6983.373         0.7363807
+9                         6634.204         0.7263035
+10                        6302.494         0.7159896
+11                        5987.369         0.7054447
+12                        5688.001         0.6946752
+13                        5403.601         0.6836885
+14                        5133.421         0.6724928
+15                        4876.750         0.6610974
+16                        4632.912         0.6495120
+17                        4401.267         0.6377477
+18                        4181.203         0.6258159
+19                        3972.143         0.6137292
+20                        3773.536         0.6015007</code></pre>
 </div>
 </div>
 <p>Tada!</p>
 </section>
 <section id="baking" class="level1">
 <h1>Baking</h1>
-<p>Now to finish the magic i will bake you a cake! A data-cake!</p>
+<p>Now to finish the magic i will bake you a data-cake! <span class="citation" data-cites="Fremdkapital">@Fremdkapital</span> will show you the yearly total depth values for the quired real instate, after deduction of amortization payments</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="Testreport_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Testreport_files/figure-html/Fremdkapital-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Projeziertes jährliches Fremdkapital über die nächsen X Jahre</figcaption>
+</figure>
 </div>
+</div>
+</div>
+<p>Now the plot <span class="citation" data-cites="Femdverschuldung2">@Femdverschuldung2</span> shows “Fremd-” and “Eigenkapital” not stacked but ovarlayed:</p>
+<div class="cell">
 <div class="cell-output-display">
-<p><img src="Testreport_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Testreport_files/figure-html/Fremdverschuldung2-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Projezierte jährliche Kapitalzusammensetzung über die nächsen X Jahre</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>And last a the percentage of Fremdverschuldung/Investment Total in <span class="citation" data-cites="Fremdverschluldung3">@Fremdverschluldung3</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Testreport_files/figure-html/Fremdverschuldung3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Projezierte jährliche Fremdverschuldung über die nächsen X Jahre</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>

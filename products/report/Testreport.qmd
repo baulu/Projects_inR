@@ -14,48 +14,68 @@ library(tidyverse)
 
 ## Creating functions for future financial projections
 
-With a lot of ChatGPT-help i tried to work out a function projecting total-depth and percentage of depth to own assets (Not the financial guy here... just wnated to do something i otherwise never do. Nevertheless, one might argue this makes no sense when running to AI for help. But rather than going down this philoyophical sinkhole i show some overly simple graphs about ~$$$$~- ~~Enjoy!~~)
+With a lot of ChatGPT-help i tried to work out a function projecting financial details of a real estate financing (total-depth and percentage of depth to own assets). I am absolutely not the financial guy over here... just wanted to do something i otherwise never do. Nevertheless, one might argue this makes no sense when running to AI for help. But rather than going down this philosophical sinkhole i show some overly simple graphs about cash - Enjoy!)
 
 # Import Function
-
-First i import the function from a separate script - **But i dont show it to you, because i want to keep it to myself - Death to open Science ;-)!**
+First i import the function from a separate script - **But i dont show it, because i want to keep it to myself - Death to open Science ;-)!**
 
 ```{r}
 #| echo: false
 source("~/Desktop/Home/Arbeit und Studium/Medizin/Infektiologie/Projekte und Forschung/R Projects/Projects_inR/funtions/func_financial_projection.R")
 ```
 
+Nah, just kidding. Here it is:
+```{r}
+source("~/Desktop/Home/Arbeit und Studium/Medizin/Infektiologie/Projekte und Forschung/R Projects/Projects_inR/funtions/func_financial_projection.R")
+```
+
 # Inventing Data
-Now i present to you the fruits of work with a freshly invented data-table:
+Now i present to you the fruits of work with a freshly invented data-table Financial-projection:
 
 ```{r}
+#| label: Financial-projection
 #| echo: false
 # Example usage:
-own_capital <- 50000  # Eigenkapital
-total_debt <- 200000  # Fremdkapital
-interest_rate <- 0.05  # Annual interest rate
-amortization_rate <- 0.02  # Annual amortization rate
-years <- 20  # Number of years for projection
-
-financial_projection <- project_financials(own_capital, total_debt, interest_rate, amortization_rate, years) 
-financial_projection <- financial_projection %>% 
-  mutate(Fremdverschuldung = Fremdkapital / (Eigenkapital + Fremdkapital))
-print(financial_projection)
+source("~/Desktop/Home/Arbeit und Studium/Medizin/Infektiologie/Projekte und Forschung/R Projects/Projects_inR/scripts/financial_exploration.R")
 
 ```
 Tada!
 
 # Baking
-Now to finish the magic i will bake you a cake! A data-cake!
-```{r}
-#| echo: false
-ggplot(financial_projection)+
-  geom_line(aes(x = Year, y = Fremdkapital), color = "red") +
-  theme_classic() 
+Now to finish the magic i will bake you a data-cake! @Fremdkapital will show you the yearly total depth values for the quired real instate, after deduction of amortization payments
 
-ggplot(financial_projection)+
+
+```{r}
+#| label: Fremdkapital
+#| fig-cap: "Projeziertes jährliches Fremdkapital über die nächsen X Jahre"
+#| echo: false
+ggplot(financial_projection %>% 
+  pivot_longer(cols = 2:3, values_to = "Kapital", names_to = "Kapitalherkunft")) +
+  geom_area(aes(x = Year, y = Kapital, fill = Kapitalherkunft)) +
+  theme_classic() 
+```
+
+Now the plot @Femdverschuldung2 shows "Fremd-" and "Eigenkapital" not stacked but ovarlayed:
+```{r}
+#| label: Fremdverschuldung2 
+#| fig-cap: "Projezierte jährliche Kapitalzusammensetzung über die nächsen X Jahre"
+#| echo: false
+ggplot(data = financial_projection) +
+  geom_area(aes(x = Year, y = Fremdkapital), fill = "pink") +
+  geom_area(aes(x = Year, y = Eigenkapital), fill = "blue") +
+  geom_text(aes(label = "Pink = Fremdkapital"), x = 15, y = 120000, color = "pink") +
+  geom_text(aes(label = "Blue = Eigenkapital"), x = 15, y = 110000, color = "blue") +
+  theme_classic() 
+```
+
+And last a the percentage of Fremdverschuldung/Investment Total in @Fremdverschluldung3
+```{r}
+#| label: Fremdverschuldung3 
+#| fig-cap: "Projezierte jährliche Fremdverschuldung über die nächsen X Jahre"
+#| echo: false
+ggplot(data = financial_projection) +
   geom_line(aes(x = Year, y = Fremdverschuldung), color = "pink") +
-  scale_y_continuous(labels = scales::label_percent()) +
+  scale_y_continuous(labels = scales::label_percent())+
   theme_classic()
 
 ```
