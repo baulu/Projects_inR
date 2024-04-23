@@ -1,7 +1,7 @@
 ---
 title: "TestingTester"
-author: "Mr.Myself"
-date: "'r date()'"
+author: "Lukas Baumann"
+date: today
 format: html
 toc: true
 ---
@@ -133,7 +133,7 @@ ggplot(data = financial_projection) +
   theme_classic() 
 ```
 
-And last a the percentage of Fremdverschuldung/Investment Total in @Fremdverschluldung3
+And last a the percentage of Fremdverschuldung per total investments in @Fremdverschluldung3
 ```{r}
 #| label: Fremdverschuldung3 
 #| fig-cap: "Projezierte jährliche Fremdverschuldung über die nächsen X Jahre"
