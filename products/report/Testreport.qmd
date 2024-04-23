@@ -20,7 +20,7 @@ With a lot of ChatGPT-help i tried to work out a function projecting financial d
 
 # Creating Function
 
-First i add the function from a separate script - **But i dont show it, because i want to keep it to myself ;-)!**
+First i add the function allowing for calculation of future data projections.
 
 ```{r}
 #| echo: false
