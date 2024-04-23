@@ -3,7 +3,7 @@ title: "TestingTester"
 author: "Mr.Myself"
 date: "'r date()'"
 format: html
-editor: visual
+toc: true
 ---
 
 ```{r}
@@ -12,27 +12,52 @@ editor: visual
 library(tidyverse)
 ```
 
-## What about ~~Whataboutism~~
+## Creating functions for future financial projections
+
+With a lot of ChatGPT-help i tried to work out a function projecting total-depth and percentage of depth to own assets (Not the financial guy here... just wnated to do something i otherwise never do. Nevertheless, one might argue this makes no sense when running to AI for help. But rather than going down this philoyophical sinkhole i show some overly simple graphs about ~$$$$~- ~~Enjoy!~~)
+
+# Import Function
+
+First i import the function from a separate script - **But i dont show it to you, because i want to keep it to myself - Death to open Science ;-)!**
 
 ```{r}
 #| echo: false
-#| output: false
-ins2 <- read_csv("https://raw.githubusercontent.com/ISPMBern/projects-in-R/main/data/raw/insurance_with_date.csv")
+source("~/Desktop/Home/Arbeit und Studium/Medizin/Infektiologie/Projekte und Forschung/R Projects/Projects_inR/funtions/func_financial_projection.R")
 ```
+
+# Inventing Data
+Now i present to you the fruits of work with a freshly invented data-table:
 
 ```{r}
 #| echo: false
-ggplot(ins2, aes(x = age, y = bmi, color = smoker))+
-  geom_point() +
-  geom_quantile()+
-  theme(legend.position = "top")
+# Example usage:
+own_capital <- 50000  # Eigenkapital
+total_debt <- 200000  # Fremdkapital
+interest_rate <- 0.05  # Annual interest rate
+amortization_rate <- 0.02  # Annual amortization rate
+years <- 20  # Number of years for projection
+
+financial_projection <- project_financials(own_capital, total_debt, interest_rate, amortization_rate, years) 
+financial_projection <- financial_projection %>% 
+  mutate(Fremdverschuldung = Fremdkapital / (Eigenkapital + Fremdkapital))
+print(financial_projection)
+
 ```
+Tada!
 
-You can add options to executable code like this
-
+# Baking
+Now to finish the magic i will bake you a cake! A data-cake!
 ```{r}
 #| echo: false
-2 * 2
+ggplot(financial_projection)+
+  geom_line(aes(x = Year, y = Fremdkapital), color = "red") +
+  theme_classic() 
+
+ggplot(financial_projection)+
+  geom_line(aes(x = Year, y = Fremdverschuldung), color = "pink") +
+  scale_y_continuous(labels = scales::label_percent()) +
+  theme_classic()
+
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+

@@ -38,10 +38,21 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#creating-functions-for-future-financial-projections" id="toc-creating-functions-for-future-financial-projections" class="nav-link active" data-scroll-target="#creating-functions-for-future-financial-projections">Creating functions for future financial projections</a></li>
+  <li><a href="#import-function" id="toc-import-function" class="nav-link" data-scroll-target="#import-function">Import Function</a></li>
+  <li><a href="#inventing-data" id="toc-inventing-data" class="nav-link" data-scroll-target="#inventing-data">Inventing Data</a></li>
+  <li><a href="#baking" id="toc-baking" class="nav-link" data-scroll-target="#baking">Baking</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -73,24 +84,76 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="what-about-whataboutism" class="level2">
-<h2 class="anchored" data-anchor-id="what-about-whataboutism">What about <del>Whataboutism</del></h2>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Smoothing formula not specified. Using: y ~ x
-Smoothing formula not specified. Using: y ~ x</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="Testreport_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>You can add options to executable code like this</p>
+<section id="creating-functions-for-future-financial-projections" class="level2">
+<h2 class="anchored" data-anchor-id="creating-functions-for-future-financial-projections">Creating functions for future financial projections</h2>
+<p>With a lot of ChatGPT-help i tried to work out a function projecting total-depth and percentage of depth to own assets (Not the financial guy here… just wnated to do something i otherwise never do. Nevertheless, one might argue this makes no sense when running to AI for help. But rather than going down this philoyophical sinkhole i show some overly simple graphs about <sub>$$$$</sub>- <del>Enjoy!</del>)</p>
+</section>
+<section id="import-function" class="level1">
+<h1>Import Function</h1>
+<p>First i import the function from a separate script - <strong>But i dont show it to you, because i want to keep it to myself - Death to open Science ;-)!</strong></p>
+</section>
+<section id="inventing-data" class="level1">
+<h1>Inventing Data</h1>
+<p>Now i present to you the fruits of work with a freshly invented data-table:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4</code></pre>
+<pre><code>   Year Eigenkapital Fremdkapital Jaehrliche_Zinszahlung
+1     1        50000    200000.00                  0.000
+2     2        50000    186000.00              10000.000
+3     3        50000    172980.00               9300.000
+4     4        50000    160871.40               8649.000
+5     5        50000    149610.40               8043.570
+6     6        50000    139137.67               7480.520
+7     7        50000    129398.04               6956.884
+8     8        50000    120340.17               6469.902
+9     9        50000    111916.36               6017.009
+10   10        50000    104082.22               5595.818
+11   11        50000     96796.46               5204.111
+12   12        50000     90020.71               4839.823
+13   13        50000     83719.26               4501.035
+14   14        50000     77858.91               4185.963
+15   15        50000     72408.79               3892.946
+16   16        50000     67340.17               3620.439
+17   17        50000     62626.36               3367.009
+18   18        50000     58242.52               3131.318
+19   19        50000     54165.54               2912.126
+20   20        50000     50373.95               2708.277
+   Jaehrliche_Amortisationszahlung Fremdverschuldung
+1                         4000.000         0.8000000
+2                         4000.000         0.7881356
+3                         3720.000         0.7757646
+4                         3459.600         0.7628887
+5                         3217.428         0.7495121
+6                         2992.208         0.7356423
+7                         2782.753         0.7212901
+8                         2587.961         0.7064697
+9                         2406.803         0.6911986
+10                        2238.327         0.6754979
+11                        2081.644         0.6593923
+12                        1935.929         0.6429100
+13                        1800.414         0.6260823
+14                        1674.385         0.6089440
+15                        1557.178         0.5915326
+16                        1448.176         0.5738885
+17                        1346.803         0.5560542
+18                        1252.527         0.5380743
+19                        1164.850         0.5199948
+20                        1083.311         0.5018628</code></pre>
 </div>
 </div>
-<p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
+<p>Tada!</p>
+</section>
+<section id="baking" class="level1">
+<h1>Baking</h1>
+<p>Now to finish the magic i will bake you a cake! A data-cake!</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="Testreport_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="Testreport_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 
 </main>
