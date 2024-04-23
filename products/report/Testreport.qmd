@@ -6,12 +6,15 @@ format:
   html:
     toc: true
     embed-resources: true
+    code-fold: show
+    code-tools: true
+    df-print: paged
 ---
 
 ```{r}
 #| output: false
-#| echo: false
 library(tidyverse)
+library(here)
 ```
 
 ## Creating functions for future financial projections
@@ -21,41 +24,6 @@ With a lot of ChatGPT-help i tried to work out a function projecting financial d
 # Creating Function
 
 First i add the function allowing for calculation of future data projections.
-
-```{r}
-#| echo: false
-project_financials <- function(own_capital, total_debt, interest_rate, amortization_rate, years) {
-  equity <- numeric(length = years)
-  debt <- numeric(length = years)
-  mortgage_payments <- numeric(length = years)
-  amortization_payments <- numeric(length = years)
-  
-  equity[1] <- own_capital
-  debt[1] <- total_debt
-  amortization_payments[1] <- total_debt*amortization_rate
-  mortgage_payments[1] <- total_debt* interest_rate
-  
-  for (i in 2:years) {
-    mortgage_payments[i] <- debt[1] * interest_rate
-    equity[i] <- equity[1]
-    debt[i] <- debt[i - 1] - amortization_payments[i-1]
-    amortization_payments[i] <- debt[i] * amortization_rate
-  }
-  
-  result <- data.frame(
-    Year = 1:years,
-    Eigenkapital = equity,
-    Fremdkapital = debt,
-    Jaehrliche_Zinszahlung = mortgage_payments,
-    Jaehrliche_Amortisationszahlung = amortization_payments
-  )
-  
-  return(result)
-}
-
-```
-
-Nah, just kidding. Here it is:
 
 ```{r}
 project_financials <- function(own_capital, total_debt, interest_rate, amortization_rate, years) {
@@ -113,24 +81,25 @@ print(financial_projection %>%
 
 # Baking
 
-Now to finish the magic i will bake some graphs! @Fremdkapital will show you the yearly total debth values for the imaginary real estate deal, after yearly deduction of amortization payments
+Now to finish the magic i will bake some graphs! Figure 1 will show you the yearly total debth values for the imaginary real estate deal, after yearly deduction of amortization payments
 
 ```{r}
 #| label: Fremdkapital
-#| fig-cap: "Projeziertes jährliches Fremdkapital über die nächsen X Jahre"
+#| fig-cap: "Fig1: Projeziertes jährliches Fremdkapital über die nächsen X Jahre"
 #| echo: false
+
 ggplot(financial_projection %>% 
   pivot_longer(cols = 2:3, values_to = "Kapital", names_to = "Kapitalherkunft")) +
   geom_area(aes(x = Year, y = Kapital, fill = Kapitalherkunft)) +
   theme_classic() 
 ```
 
-Now the plot @Femdverschuldung2 shows "Fremd-" and "Eigenkapital" not stacked but ovarlayed:
-
+Now figure 2 shows "Fremd-" and "Eigenkapital" not stacked but ovarlayed:
 ```{r}
-#| label: Fremdverschuldung2 
-#| fig-cap: "Projezierte jährliche Kapitalzusammensetzung über die nächsen X Jahre"
+#| label: fremdverschuldung2 
+#| fig-cap: "Fig2: Projezierte jährliche Kapitalzusammensetzung über die nächsen X Jahre"
 #| echo: false
+
 ggplot(data = financial_projection) +
   geom_area(aes(x = Year, y = Fremdkapital), fill = "pink") +
   geom_area(aes(x = Year, y = Eigenkapital), fill = "blue") +
@@ -139,17 +108,19 @@ ggplot(data = financial_projection) +
   theme_classic() 
 ```
 
-And last a the percentage of Fremdverschuldung per total investments in @Fremdverschluldung3
 
 ```{r}
-#| label: Fremdverschuldung3 
-#| fig-cap: "Projezierte jährliche Fremdverschuldung über die nächsen X Jahre"
+#| label: Fremdverschluldung3 
+#| fig-cap: "Fig3: Projezierte jährliche Fremdverschuldung über die nächsen X Jahre"
 #| echo: false
+
 ggplot(data = financial_projection) +
   geom_line(aes(x = Year, y = Fremdverschuldung), color = "pink") +
   scale_y_continuous(labels = scales::label_percent()) +
   theme_classic()
 ```
+And last a the percentage of Fremdverschuldung per total investments in Figure 3
+
 # Doing the actual assignment
 Lastly i added a short evaluation of the ebola dataset;
 ```{r}
@@ -160,7 +131,7 @@ ebodat <- read_csv("https://raw.githubusercontent.com/ISPMBern/projects-in-R/mai
 
 ```
 
-I was interested in daily new ebola cases, which i firstly need to calculate from the dataset as only cumulative cases are reported.
+I was interested in incident new ebola cases, which i firstly need to calculate from the dataset as only cumulative cases are reported.
 ```{r}
 #| output: false
 ebodat2 <-  ebodat %>% 
@@ -173,10 +144,12 @@ ebodat2 <-  ebodat %>%
   ungroup()
 ```
 
-Then i plot daily new ebola-cases in @ebolacases below, grouped by countries. In this graph higher infection numbers in Sierra Leone are mostly aparent. There are two outliers - one very high and one negative value for Liberia. These are likly data errors.
+Then i plot incident new ebola-cases in figure 4 below, grouped by countries. In this graph higher infection numbers in Sierra Leone are mostly aparent. There are two outliers - one very high and one negative value for Liberia, nut readily explainable (the negative value makes little sense, but might also be a problem of my calculation somewhere)
 ```{r}
 #| echo: false
 #| warning: false
+#| #| fig-cap: "Fig4:Incident new ebola cases since last reporting"
+
 #| label: ebolacases
 ggplot(ebodat2, mapping = aes(x = Date, y = Cum_conf_cases_diff)) +
   geom_point(aes(group = Country, color = Country)) +
