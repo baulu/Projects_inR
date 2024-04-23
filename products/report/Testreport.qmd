@@ -18,7 +18,7 @@ library(tidyverse)
 
 With a lot of ChatGPT-help i tried to work out a function projecting financial details of a real estate financing (total-depth and percentage of depth to own assets). I am absolutely not the financial guy over here and have little experience in function creation... just wanted to do something i never did. Nevertheless, one might argue this makes little sense when running to AI for help. But rather than going down this philosophical sinkhole i show some overly simple graphs about cash - Enjoy!
 
-# Import Function
+# Creating Function
 
 First i add the function from a separate script - **But i dont show it, because i want to keep it to myself ;-)!**
 
@@ -160,7 +160,7 @@ ebodat <- read_csv("https://raw.githubusercontent.com/ISPMBern/projects-in-R/mai
 
 ```
 
-I was interested in daily new ebola cases, which i firstly need to calculat from the dataset.
+I was interested in daily new ebola cases, which i firstly need to calculate from the dataset as only cumulative cases are reported.
 ```{r}
 #| output: false
 ebodat2 <-  ebodat %>% 
@@ -173,7 +173,7 @@ ebodat2 <-  ebodat %>%
   ungroup()
 ```
 
-Then i show daily new ebola-cases in @ebolacases below.
+Then i plot daily new ebola-cases in @ebolacases below, grouped by countries. In this graph higher infection numbers in Sierra Leone are mostly aparent. There are two outliers - one very high and one negative value for Liberia. These are likly data errors.
 ```{r}
 #| echo: false
 #| warning: false
